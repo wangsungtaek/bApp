@@ -5,10 +5,10 @@ import * as KlipAPI from './api/UseKlip';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./market.css";
-import { Alert, Container } from "react-bootstrap";
+import { Alert, Card, Container } from "react-bootstrap";
 
 // eslint-disable-next-line
-import { getBalance, readCount, setCount } from './api/UseCaver';
+import { getBalance, fetchCardsOf } from './api/UseCaver';
 import './App.css';
 
 const onPressButton2 = (_balance, _setBalance) => {
@@ -30,6 +30,10 @@ function App() {
 
   // fetchMarketNFTs
   // fetchMyNFTs
+  const fetchMyNFTs = async () => {
+    const _nfts = await fetchCardsOf("0xab02aa8d37dBA20dC40900DD828b67A576ECd021");
+    setNfts(_nfts);
+  };
   // onClickMint
   // onClickMyCard
   // onClickMarketCard
@@ -60,11 +64,19 @@ function App() {
         {myAddress}
         <br />
         <Alert 
+          onClick={getUserData}
           variant={"balance"}
           style={{ backgroundColor: "#f40075", fontSize: 25 }}
         >
           {myBalance}
         </Alert>
+
+        {/* 갤러리(마켓, 내 지갑) */}
+        <div className="container" style={{ padding: 0, width: "100%" }}>
+          { nfts.length > 0 ? nfts.map((nft, index) => (
+            <Card.Img className="img-responsive" src={nfts[index].uri} />
+          )) : ''}
+        </div>
       </div>
       {/* 주소 잔고 */}
       <Container
@@ -77,10 +89,8 @@ function App() {
       >
         <QRCode value={qrvalue} size={256} style={{ margin: "auto" }} />  
       </Container>
-      <div onClick={getUserData}>
-      </div>
+      <button onClick={fetchMyNFTs}>가져오기</button>
       
-      {/* 갤러리(마켓, 내 지갑) */}
       {/* 발행 페이지 */}
       {/* 탭 */}
       {/* 모달 */}
