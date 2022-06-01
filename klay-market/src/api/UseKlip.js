@@ -36,7 +36,7 @@ export const setCount = (count, setQrvaule) => {
   })
 }
 
-export const getAddress = (setQrvaule) => {
+export const getAddress = (setQrvaule, callback) => {
 
   axios.post(
     A2P_API_PREPARE_URL, {
@@ -53,6 +53,7 @@ export const getAddress = (setQrvaule) => {
       axios.get(`https://a2a-api.klipwallet.com/v2/a2a/result?request_key=${request_key}`).then((res) => {
         if(res.data.result) {
           console.log(`[Result] ${JSON.stringify(res.data.result)}`);
+          callback(res.data.result.klaytn_address);
           clearInterval(timerId);
         }
       })
