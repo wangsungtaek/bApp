@@ -51,8 +51,21 @@ function App() {
     );
   };
 
-  // onClickMyCard
-  // onClickMarketCard
+  const onClickCard = () => {
+    if(tab === 'WALLET') {
+      onClickMyCard();
+    }
+    if(tab === 'MARKET') {
+      onClickMarketCard();
+    }
+  }
+
+  const onClickMyCard = () => {
+
+  }
+  const onClickMarketCard = () => {
+    
+  }
 
   // 사용자 주소 및 클레이 가져오기
   const getUserData = () => {
@@ -102,7 +115,7 @@ function App() {
         <br />
 
         {/* 갤러리(마켓, 내 지갑) */}
-        { tab === 'MARKET' || tab === 'NFT' ? (
+        { tab === 'MARKET' || tab === 'WALLET' ? (
           <div className="container" style={{ padding: 0, width: "100%" }}>
             { nfts.length > 0 ? nfts.map((nft, index) => (
               <Card.Img className="img-responsive" src={nfts[index].uri} />
