@@ -19,7 +19,7 @@ const DEFAULT_ADDRESS = '0x000000000000000000000000';
 function App() {
   const [nfts, setNfts] = useState([]);
   const [myBalance, setMyBalance] = useState('0');
-  const [myAddress, setMyAddress] = useState(DEFAULT_ADDRESS);
+  const [myAddress, setMyAddress] = useState("0xab02aa8d37dBA20dC40900DD828b67A576ECd021");
 
   // UI
   const [qrvalue, setQrvaule] = useState(DEFAULT_QR_CODE);
@@ -51,20 +51,24 @@ function App() {
     );
   };
 
-  const onClickCard = () => {
+  const onClickCard = (id) => {
     if(tab === 'WALLET') {
-      onClickMyCard();
+      onClickMyCard(id);
     }
     if(tab === 'MARKET') {
-      onClickMarketCard();
+      onClickMarketCard(id);
     }
-  }
+  } 
 
-  const onClickMyCard = () => {
-
+  const onClickMyCard = (tokenId) => {
+    KlipAPI.listingCard(myAddress, tokenId, setQrvaule, (result) => {
+      alert(JSON.stringify(result));
+    });
   }
-  const onClickMarketCard = () => {
-    
+  const onClickMarketCard = (tokenId) => {
+    KlipAPI.buyCard(tokenId, setQrvaule, (result) => {
+      alert(JSON.stringify(result));
+    });
   }
 
   // 사용자 주소 및 클레이 가져오기
@@ -118,7 +122,12 @@ function App() {
         { tab === 'MARKET' || tab === 'WALLET' ? (
           <div className="container" style={{ padding: 0, width: "100%" }}>
             { nfts.length > 0 ? nfts.map((nft, index) => (
-              <Card.Img className="img-responsive" src={nfts[index].uri} />
+              <Card.Img
+                key={`imagekey${index}`}
+                onClick={() => {
+                  onClickCard(nft.id);
+                }}
+                className="img-responsive" src={nfts[index].uri} />
             )) : ''}
           </div>
         ) : null }
